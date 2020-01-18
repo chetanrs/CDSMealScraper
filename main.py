@@ -3,7 +3,7 @@ from selenium.common.exceptions import NoSuchElementException
 import csv
 import time
 
-# a new comment to test something
+# a third comment to test something
 month = "01"
 day = "20"
 
