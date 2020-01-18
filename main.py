@@ -1,12 +1,17 @@
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+import csv
 import time
 
+month = "01"
+day = "20"
+
 driver = webdriver.Chrome()
-driver.get("https://dining.unc.edu/locations/top-of-lenoir/?date=2020-01-07")
+driver.get("https://dining.unc.edu/locations/top-of-lenoir/?date=2020-" + month + "-" + day)
 
 links = driver.find_elements_by_class_name("show-nutrition")
 
-items_to_traverse = 20
+items_to_traverse = 5
 item_count = 0
 nutritional_labels = ["Calories: ",
                       "Calories from fat: ",
@@ -25,10 +30,11 @@ for link in links:
         break
 
     link.click()
-    time.sleep(0.15)
 
-    nutrition = driver.find_element_by_id("nutrition-slider-stage").find_element_by_css_selector(
-        "div").text.splitlines()
+    try:
+        nutrition = driver.find_element_by_id("nutrition-slider-stage").find_element_by_css_selector("div").text.splitlines()
+    except NoSuchElementException:
+        time.sleep(0.1)
 
     print("Item: " + nutrition[0])
     for i in range(5, 16):
